@@ -53,6 +53,7 @@
     <Compile Include="Source\AudioStreams\PortAudioStream.cs" />
     <Compile Include="Source\AudioStreams\XAudio2Stream.cs" />
     <Compile Include="Source\ChannelStates\ChannelState.cs" />
+    <Compile Include="Source\ChannelStates\ChannelStateSfc.cs" />
     <Compile Include="Source\ChannelStates\ChannelStateDpcm.cs" />
     <Compile Include="Source\ChannelStates\ChannelStateEPSMFm.cs" />
     <Compile Include="Source\ChannelStates\ChannelStateEPSMRythm.cs" />

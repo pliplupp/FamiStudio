@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
@@ -1106,6 +1107,9 @@ namespace FamiStudio
 
             if (ChannelType.GetExpansionTypeForChannelType(channelType) == ExpansionType.EPSM)
                 return (expansionMask & ExpansionType.EPSMMask) != 0;
+
+            if (ChannelType.GetExpansionTypeForChannelType(channelType) == ExpansionType.EBSFC)
+                return (expansionMask & ExpansionType.EBSFCMask) != 0;
 
             Debug.Assert(false);
 
@@ -3207,9 +3211,10 @@ namespace FamiStudio
         public const int N163  = 5;
         public const int S5B   = 6;
         public const int EPSM  = 7;
+        public const int EBSFC = 8;
         public const int Start = 1;
-        public const int End   = 7;
-        public const int Count = 8;
+        public const int End   = 8;
+        public const int Count = 9;
 
         public const int NoneMask = 0;
         public const int Vrc6Mask = (1 << 0);
@@ -3219,8 +3224,9 @@ namespace FamiStudio
         public const int N163Mask = (1 << 4);
         public const int S5BMask  = (1 << 5);
         public const int EPSMMask = (1 << 6);
+        public const int EBSFCMask = (1 << 7);
 
-        public const int AllMask  = Vrc6Mask | Vrc7Mask | FdsMask | Mmc5Mask | N163Mask | S5BMask | EPSMMask;
+        public const int AllMask  = Vrc6Mask | Vrc7Mask | FdsMask | Mmc5Mask | N163Mask | S5BMask | EPSMMask | EBSFCMask;
 
         // Use these to display to user
         public static LocalizedString[] LocalizedNames = new LocalizedString[Count];
@@ -3236,7 +3242,8 @@ namespace FamiStudio
             "MMC5",
             "N163",
             "S5B",
-            "EPSM"
+            "EPSM",
+            "SNES/Earthbound"
         };
 
         // TODO: This is really UI specific, move somewhere else...
@@ -3249,7 +3256,8 @@ namespace FamiStudio
             "Instrument",
             "InstrumentNamco",
             "InstrumentSunsoft",
-            "InstrumentEPSM"
+            "InstrumentEPSM",
+            "Instrument"
         };
 
         public static LocalizedString NoneName;
@@ -3264,7 +3272,7 @@ namespace FamiStudio
 
         public static bool NeedsExpansionInstrument(int value)
         {
-            return value == Fds || value == N163 || value == Vrc6 || value == Vrc7 || value == S5B || value == EPSM;
+            return value == Fds || value == N163 || value == Vrc6 || value == Vrc7 || value == S5B || value == EPSM || value == EBSFC;
         }
 
         // Makes sure all the bits set in "sub" are also set in "reference".
@@ -3291,6 +3299,7 @@ namespace FamiStudio
             if ((mask & ExpansionType.N163Mask) != 0) return N163;
             if ((mask & ExpansionType.S5BMask)  != 0) return S5B;
             if ((mask & ExpansionType.EPSMMask) != 0) return EPSM;
+            if ((mask & ExpansionType.EBSFCMask) != 0) return EBSFC;
 
             return None;
         }
@@ -3417,7 +3426,8 @@ namespace FamiStudio
             new ExpansionMixer(0.0f,  -5.0f, 14000),    // Mmc5
             new ExpansionMixer(0.0f, -15.0f, 14000),    // N163
             new ExpansionMixer(0.0f,  -5.0f, 14000),    // S5B
-            new ExpansionMixer(0.0f,  -5.0f, 14000)     // EPSM
+            new ExpansionMixer(0.0f,  -5.0f, 14000),     // EPSM
+            new ExpansionMixer(0.0f, -5.0f, 14000) // SNES
         };
     }
 }

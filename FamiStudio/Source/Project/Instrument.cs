@@ -90,6 +90,7 @@ namespace FamiStudio
         public bool IsN163    => expansion == ExpansionType.N163;
         public bool IsS5B     => expansion == ExpansionType.S5B;
         public bool IsEpsm    => expansion == ExpansionType.EPSM;
+        public bool IsSFC     => expansion == ExpansionType.EBSFC;
 
         public Envelope VolumeEnvelope          => envelopes[EnvelopeType.Volume];
         public Envelope PitchEnvelope           => envelopes[EnvelopeType.Pitch];
@@ -141,6 +142,12 @@ namespace FamiStudio
                 Array.Copy(EpsmInstrumentPatch.Infos[EpsmInstrumentPatch.Default].data, epsmPatchRegs, 31);
             }
             else if (expansion == ExpansionType.None)
+            {
+                samplesMapping = new Dictionary<int, DPCMSampleMapping>();
+            }
+            // SFC EXPANSION
+            // currently identical to DPCM channels
+            else if (expansion == ExpansionType.EBSFC)
             {
                 samplesMapping = new Dictionary<int, DPCMSampleMapping>();
             }

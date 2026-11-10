@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection.Metadata;
 
 namespace FamiStudio
 {
@@ -1087,6 +1088,8 @@ namespace FamiStudio
             if ((activeExpansions & ExpansionType.N163Mask) != 0) idx += numN163Channels;
             if (exp == ExpansionType.S5B) return idx;
             if ((activeExpansions & ExpansionType.S5BMask) != 0) idx += 3;
+            if (exp == ExpansionType.EBSFC) return idx;
+            if ((activeExpansions & ExpansionType.EBSFCMask) != 0) idx += 7;
 
             Debug.Assert((activeExpansions & ExpansionType.EPSMMask) != 0);
 
@@ -1482,6 +1485,11 @@ namespace FamiStudio
                 return true;
             }
 
+            if (ChannelType.IsSnesChannel(channelType))
+            {
+                return true;
+            }
+
             if (i1 == null || i2 == null)
             {
                 return false;
@@ -1643,7 +1651,14 @@ namespace FamiStudio
         public const int EPSMrythm4 = 41;
         public const int EPSMrythm5 = 42;
         public const int EPSMrythm6 = 43;
-        public const int Count = 44;
+        public const int SNESChannel1 = 44;
+        public const int SNESChannel2 = 45;
+        public const int SNESChannel3 = 46;
+        public const int SNESChannel4 = 47;
+        public const int SNESChannel5 = 48;
+        public const int SNESChannel6 = 49;
+        public const int SNESChannel7 = 50;
+        public const int Count = 51;
 
         // Use these to display to user
         public static LocalizedString[] LocalizedNames = new LocalizedString[Count];
@@ -1695,6 +1710,7 @@ namespace FamiStudio
             "EPSMRythm4", // EPSM
             "EPSMRythm5", // EPSM
             "EPSMRythm6", // EPSM
+            "SNES", // SFC 
         };
 
         // TODO: This is really UI specific, move somewhere else...
@@ -1744,6 +1760,13 @@ namespace FamiStudio
             "ChannelRythm",
             "ChannelRythm",
             "ChannelRythm",
+            "ChannelDPCM",
+            "ChannelDPCM",
+            "ChannelDPCM",
+            "ChannelDPCM",
+            "ChannelDPCM",
+            "ChannelDPCM",
+            "ChannelDPCM",
         };
 
         public static readonly int[] ExpansionTypes =
@@ -1792,6 +1815,13 @@ namespace FamiStudio
             ExpansionType.EPSM,
             ExpansionType.EPSM,
             ExpansionType.EPSM,
+            ExpansionType.EBSFC,
+            ExpansionType.EBSFC,
+            ExpansionType.EBSFC,
+            ExpansionType.EBSFC,
+            ExpansionType.EBSFC,
+            ExpansionType.EBSFC,
+            ExpansionType.EBSFC
         };
 
         public static readonly int[] ExpansionChannelIndex =
@@ -1839,7 +1869,15 @@ namespace FamiStudio
             11, // EPSM
             12, // EPSM
             13, // EPSM
-            14 // EPSM
+            14, // EPSM
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
         };
 
         static ChannelType()
@@ -1888,6 +1926,7 @@ namespace FamiStudio
         public static bool IsEPSMSquareChannel(int type) => type >= EPSMSquare1 && type <= EPSMSquare3;
         public static bool IsEPSMFmChannel(int type) => type >= EPSMFm1 && type <= EPSMFm6;
         public static bool IsEPSMRythmChannel(int type) => type >= EPSMrythm1 && type <= EPSMrythm6;
+        public static bool IsSnesChannel(int type) => type >= SNESChannel1;
 
     }
 

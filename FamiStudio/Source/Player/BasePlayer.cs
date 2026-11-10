@@ -592,6 +592,14 @@ namespace FamiStudio
                 case ChannelType.EPSMrythm5:
                 case ChannelType.EPSMrythm6:
                     return new ChannelStateEPSMRythm(this, apuIdx, channelType, tuning, pal);
+                case ChannelType.SNESChannel1:
+                case ChannelType.SNESChannel2:
+                case ChannelType.SNESChannel3:
+                case ChannelType.SNESChannel4:
+                case ChannelType.SNESChannel5:
+                case ChannelType.SNESChannel6:
+                case ChannelType.SNESChannel7:
+                    return new ChannelStateSfc(this, apuIdx, channelType, tuning, pal);
             }
 
             Debug.Assert(false);
